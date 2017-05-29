@@ -1,0 +1,10 @@
+
+<form  #userform class="navbar-form navbar-center" #form1="ngForm" (ngSubmit)="check(form1.value)">
+            <div class="form-group">
+              <input type="text" name="username" [(ngModel)]="user" #username="ngModel" placeholder="Enter your Username" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" [(ngModel)]="pass" #password="ngModel" placeholder="Enter your Password" class="form-control">
+            </div>
+            <button type="submit"  class="btn btn-success">Sign in</button>
+</form>

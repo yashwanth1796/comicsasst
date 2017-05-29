@@ -1,0 +1,27 @@
+
+<form>
+    <!--<ul class="nav navbar-nav navbar-middle">-->
+      <div class="container">
+  <div class="col-sm-4">
+  </div>
+    <div class="col-sm-4">
+  <input type="text" name="search" placeholder="Search.." [(ngModel)]="Searchdata">
+  <button class="btn btn-info" (click)="search()">
+        <span class="glyphicon glyphicon-search"></span>Search
+        
+  </button>
+  </div>
+      </div>
+      
+    <!--</ul>-->
+  
+</form>
+<div *ngIf="searchresults">
+  <h3> Search results </h3>
+  <div class="container">
+    <label> Name </label> {{GetSearch.Name}}
+    <br>
+    <img src="{{GetSearch.image}}" height="42" width="42"><br>
+    <label> startson</label> {{GetSearch.starts_on}}
+  </div>
+</div>

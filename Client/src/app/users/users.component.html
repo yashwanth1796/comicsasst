@@ -1,0 +1,52 @@
+<h1> users </h1>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Role</th>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of users">
+        <td>{{item.username}}</td>
+        <td>{{item.password}}</td>
+        <td>{{item.role}}</td>
+        <button (click)="save(item.username)" type="submit" class="btn btn-success">Edit</button>
+        <button (click)="duser(item._id)" type="submit" class="btn btn-danger">Delete</button>
+
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div *ngIf="flag">
+  <form #form1="ngForm" (ngSubmit)="updateuser(form1.value)">
+    <div class="form-group">
+      <input required type="text" name="password" [(ngModel)]="name_1" #name="ngModel" placeholder="Change password" class="form-control">
+    </div>
+    <div class="form-group">
+      <input required type="description" name="role" [(ngModel)]="desc" #description="ngModel" placeholder="role"
+        class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Proceed</button>
+  </form>
+</div>
+        <button (click)="flagd()" type="submit" class="btn btn-success">Add User</button>
+
+  <div *ngIf="flag1">
+  <div class="container">
+
+    <form (ngSubmit)="addusers()" #DetailsForm='ngForm'>
+      <input type="text" name="username" #Series placeholder="Enter the user name" [(ngModel)]="Newuser.username">
+      <input type="text" name="password" #Data placeholder="Enter description" [(ngModel)]="Newuser.password">
+
+      <input type="text" name="role" #Data placeholder="Created by" [(ngModel)]="Newuser.role">
+      <!--<input type="text" name="Series_id" #Data placeholder="Enter series id" [(ngModel)]="Newuser.Series_id">-->
+
+      <button>Submit</button>
+    </form>
+  </div>
+</div>

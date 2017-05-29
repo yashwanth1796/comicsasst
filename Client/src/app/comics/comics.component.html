@@ -1,0 +1,73 @@
+<div>
+  <table class="table table-striped">
+    <thead>
+      <th>Name</th>
+      <th>Story</th>
+      <!--<th>Startson</th>-->
+      <!--<th>Ends On</th>-->
+      <th>Image</th>
+      
+
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of comics">
+        <td>{{item.Name}}</td>
+        <td>{{item.Story}}</td>
+        <!--<td>{{item.starts_on}}</td>-->
+        <!--<td>{{item.ends_on}}</td>-->
+        <td><img src='{{item.image}}' height="100" width="100"></td>
+        
+        <button (click)="dcomics(item._id)" type="submit" class="btn btn-danger">Delete</button>
+
+        <button (click)="savecom(item._id)" type="submit" class="btn btn-success">Edit</button>
+
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<button (click)="openaaddform()" class="btn btn-success"> Add Comics </button>
+
+<div *ngIf="flag1">
+  <form #form1="ngForm" (ngSubmit)="updatecom(form1.value)">
+    <div class="form-group">
+
+      <input type="text" name="Name" #Series placeholder="Enter new comic name" [(ngModel)]="newname" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <input required type="description" name="Story" [(ngModel)]="desc" #description="ngModel" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Proceed</button>
+  </form>
+</div>
+
+
+<div *ngIf="flag">
+  <form #form1="ngForm" (ngSubmit)="addcomic(form1.value)">
+    <div class="form-group">
+      <input required type="text" name="Name" [(ngModel)]="name_1" #name="ngModel" placeholder="Name of comic" class="form-control">
+    </div>
+    <div class="form-group">
+      <input required type="text" name="Story" [(ngModel)]="desc" #description="ngModel" placeholder="Story" class="form-control">
+    </div>
+    <div class="form-group">
+      <input required type="text" name="Season_id" [(ngModel)]="ser" #id="ngModel" placeholder="season ID" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>StartsOn</label>
+      <ng2-datepicker required name="starts_on" [(ngModel)]="start"></ng2-datepicker>
+    </div>
+    <div class="form-group">
+      <label>Endson</label>
+      <ng2-datepicker required name="ends_on" [(ngModel)]="end"></ng2-datepicker>
+    </div>
+     <div class="form-group">
+     <label for="image">Destination</label>
+     <input type="file"  name="image" accept="image/*" (change)="changeListener($event)" />                                  
+    </div> 
+    <button type="submit" class="btn btn-success">submit</button>
+  </form>
+</div>

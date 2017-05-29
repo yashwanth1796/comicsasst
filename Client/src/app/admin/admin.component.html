@@ -1,0 +1,97 @@
+<!--<h1> Users Details </h1>
+<div >
+  <table class="table table-striped">
+    <thead>
+      <th>Name</th>
+      <th>password</th>
+      <th>Role</th>
+      
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of users">
+        <td>{{item.username}}</td>
+        <td>{{item.password}}</td>
+        <td>{{item.role}}</td>
+        
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h1> series  </h1>
+<div >
+  <table class="table table-striped">
+    <thead>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Createdby</th>
+      
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of series">
+        <td>{{item.name}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.created_by}}</td>
+        
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h1> seasons </h1>
+<div >
+  <table class="table table-striped">
+    <thead>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Startson</th>
+      
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of seasons">
+        <td>{{item.Name}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.starts_on}}</td>
+        
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<h1>comics </h1>
+<div >
+  <table class="table table-striped">
+    <thead>
+      <th>Name</th>
+      <th>startson</th>
+      <th>endson</th>
+      
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of comics">
+        <td>{{item.Name}}</td>
+        <td>{{item.starts_on}}</td>
+        <td>{{item.ends_on}}</td>
+        
+
+      </tr>
+    </tbody>
+  </table>
+</div>-->
+<nav>
+  <a [routerLink]="['comics']">comics</a>
+
+</nav>
+<!--<div class="container">
+
+  <form (ngSubmit)= "addseries()" #DetailsForm='ngForm'>
+    <input type="text" name="series" #Series placeholder="Enter the series name" [(ngModel)]="NewSeries.name">
+    <input type="text" name="Data" #Data placeholder="Enter Data" [(ngModel)]="NewSeries.description">
+    <input type="text" name="Series_id" #Data placeholder="Enter series id" [(ngModel)]="NewSeries.Series_id">
+    <button>Submit</button>
+  </form>
+</div>-->
+
+<router-outlet> </router-outlet>
