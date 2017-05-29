@@ -13,7 +13,7 @@ import { SuperadminComponent } from './superadmin/superadmin.component';
 import { ComicsComponent } from './comics/comics.component';
 import { SeriesComponent } from './series/series.component';
 import { SeasonsComponent } from './seasons/seasons.component';
-// import { AuthService } from "app/auth.service";
+import { AuthService } from "app/auth.service";
 import { SearchresultComponent } from './searchresult/searchresult.component';
 import { AdminComponent } from './admin/admin.component';
 import { UsersComponent } from './users/users.component';
@@ -41,7 +41,7 @@ import { DatePickerModule } from 'ng2-datepicker';
     DatePickerModule,
     RouterModule.forRoot(rou)
   ],
-  providers: [DataService,Configuration],
+  providers: [DataService,Configuration,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

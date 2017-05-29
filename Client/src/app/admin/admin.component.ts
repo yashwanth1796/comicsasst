@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from "app/data.service";
+import { CanActivate, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +20,7 @@ export class AdminComponent implements OnInit {
     description: '',
     Series_id: 0
   };
-  constructor(public dataservice: DataService) { }
+  constructor(public dataservice: DataService, public router1: Router) { }
 
   ngOnInit() {
 
@@ -33,6 +34,10 @@ export class AdminComponent implements OnInit {
 
 
   }
-
+  logout() {
+    localStorage.clear()
+    console.log(localStorage.getItem('role'))
+    this.router1.navigate(['/login'])
+  }
 }
 

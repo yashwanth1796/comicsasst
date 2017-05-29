@@ -18,7 +18,7 @@ export class Configuration {
         dseriesURL: 'http://192.168.15.100:2000/api/v1/series/',
         upusersURL: 'http://192.168.15.100:2000/api/v1/update',
         dseasonsURL: 'http://192.168.15.100:2000/api/v1/seasons/',
-        
+        commentsURL: 'http://192.168.15.100:2000/api/v1/comments/'
         
         
         

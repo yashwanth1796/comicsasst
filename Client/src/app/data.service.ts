@@ -142,4 +142,9 @@ export class DataService {
     return this.httpService.post(this.con.UrlObj.comicURL, a, headers)
       .map((res => res.json()));
   }
+
+  addcomment(id,a): Observable<any> {
+    return this.httpService.put(this.con.UrlObj.commentsURL+id,a)
+    .map(resdata => resdata.json())
+  }
 }

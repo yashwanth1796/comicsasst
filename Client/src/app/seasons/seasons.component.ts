@@ -72,7 +72,8 @@ export class SeasonsComponent implements OnInit {
     this.flag1 = 1;
   }
   updatesea(form) {
-
+    form.starts_on = form.starts_on.formatted;
+    form.ends_on = form.ends_on.formatted
     this.dataservice.updateseasons(this.editid, form)
       .subscribe(resdata => {
         console.log(resdata)

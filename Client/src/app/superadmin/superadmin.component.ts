@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from "app/data.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-superadmin',
@@ -7,14 +8,16 @@ import { DataService } from "app/data.service";
   styleUrls: ['./superadmin.component.css']
 })
 export class SuperadminComponent implements OnInit {
-  users: any;
+  // users: any;
 
-  constructor(public dataservice: DataService) { }
+  constructor(public dataservice: DataService,public router1: Router) { }
 
   ngOnInit() {
-     this.dataservice.getusers()
-      .subscribe(resdata => this.users = resdata);
-    console.log(this.users)
+ 
+}
+ logout() {
+    localStorage.clear()
+    console.log(localStorage.getItem('role'))
+    this.router1.navigate(['/login'])
   }
 }
-

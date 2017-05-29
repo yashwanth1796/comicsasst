@@ -12,6 +12,7 @@ import { AdminComponent } from './admin/admin.component';
 import { SeriesComponent } from './series/series.component';
 import { UserComponent } from './user/user.component';
 import { SeasonsComponent } from './seasons/seasons.component';
+import { AuthService } from "app/auth.service";
 
 import { UsersComponent } from './users/users.component';
 
@@ -20,13 +21,26 @@ export const rou: Routes = [
     { path: '', component: MainbodyComponent },
     { path: 'login', component: LoginComponent },
 
-    { path: 'superadmin', component: SuperadminComponent },
+
+    {
+        path: 'superadmin', component: SuperadminComponent, data: [{
+            role: 'super Admin'
+        }], canActivate: [AuthService], children: [
+            { path: 'users', component: UsersComponent },
+
+        ]
+    },
     { path: 'comics', component: ComicsComponent },
     { path: 'searchresult', component: SearchresultComponent },
     {
-        path: 'admin', component: AdminComponent,
+        path: 'admin', component: AdminComponent, data: [{
+            role: 'Admin'
+        }], canActivate: [AuthService],
         children: [
             { path: 'comics', component: ComicsComponent },
+            { path: 'seasons', component: SeasonsComponent },
+            { path: 'series', component: SeriesComponent },
+
         ]
     },
     { path: 'series', component: SeriesComponent },
@@ -36,7 +50,7 @@ export const rou: Routes = [
         children: [
             { path: 'comics', component: ComicsComponent },
             // { path: 'searchresult', component: SearchresultComponent },
-            
+
         ]
     },
 

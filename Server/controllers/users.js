@@ -5,12 +5,7 @@ var comics = require('../models/comics');
 
 //user functions
 exports.postUsers = function(req, res) {
-  var user = new User({
-    username: req.body.username,
-    password: req.body.password,
-    type: req.body.type,
-    role: req.body.role
-  });
+  var user = new User({username: req.body.username, password: req.body.password, type: req.body.type, role: req.body.role});
 
   user.save(function(err, response) {
     if (err) {
@@ -488,6 +483,43 @@ exports.updatecomics = function(req, res) {
     comic.updated_at = new Date();
 
     comic.save(function(err, response) {
+      if (err) {
+        res.json({
+          status: false,
+          respData: {
+            data: err
+          }
+        });
+      }
+
+      res.json({
+        status: true,
+        respData: {
+          data: response
+        }
+      });
+    })
+  })
+}
+
+exports.addcomment = function(req, res) {
+  var id = req.params._id;
+  comics.findOne({
+    _id: id
+  }, function(err, com) {
+    if (err) {
+      res.json({
+        status: false,
+        respData: {
+          data: err
+        }
+      });
+    }
+
+    var comment = req.body.comments;
+    com.comments = comment;
+
+    com.save(function(err, response) {
       if (err) {
         res.json({
           status: false,

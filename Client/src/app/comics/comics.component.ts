@@ -12,6 +12,7 @@ export class ComicsComponent implements OnInit {
   comics: any;
   flag1 = 0;
   flag = 0;
+  status;
   date: DateModel;
   options: DatePickerOptions;
   Comics: any;
@@ -22,7 +23,7 @@ export class ComicsComponent implements OnInit {
     Season_id: String,
     starts_on: String,
     ends_on: String,
-    Image:String
+    Image: String
   }
   =
   {
@@ -32,13 +33,15 @@ export class ComicsComponent implements OnInit {
     Season_id: '',
     starts_on: '',
     ends_on: '',
-    Image:''
+    Image: ''
   };
 
   constructor(public dataservice: DataService, ) { this.options = new DatePickerOptions() }
 
   ngOnInit() {
     this.gcomics()
+  this.status=localStorage.getItem("role")
+    
 
   }
 
@@ -81,7 +84,7 @@ export class ComicsComponent implements OnInit {
   addcomic(data) {
     data.starts_on = data.starts_on.formatted;
     data.ends_on = data.ends_on.formatted;
-    data.image=this.base64;
+    data.image = this.base64;
     console.log(data)
     this.dataservice.postcomics(data)
       .subscribe(resdata => {
@@ -89,19 +92,22 @@ export class ComicsComponent implements OnInit {
         this.gcomics()
       })
   }
-  changeListener(event){
-  console.log(event.target)
-  this.encodeImageFileAsURL(event.target)
-}
-encodeImageFileAsURL(element) {
-  var file = element.files[0];
-  var reader = new FileReader();
-  reader.onloadend=(data=>{
-    this.base64=reader.result;
-    // this.Newcomic.Image= this.base64;
-    //console.log('RESULT', reader.result)
-  })
-  reader.readAsDataURL(file);
-  //console.log(this.base64);
-}
+  changeListener(event) {
+    console.log(event.target)
+    this.encodeImageFileAsURL(event.target)
+  }
+  encodeImageFileAsURL(element) {
+    var file = element.files[0];
+    var reader = new FileReader();
+    reader.onloadend = (data => {
+      this.base64 = reader.result;
+      // this.Newcomic.Image= this.base64;
+      //console.log('RESULT', reader.result)
+    })
+    reader.readAsDataURL(file);
+    //console.log(this.base64);
+  }
+// postcomment(){
+//   this.dataservice.addcomment()
+// }
 }

@@ -34,6 +34,9 @@ router.route('/v1/series')
   router.route('/v1/comics/:_id')
   .put(userController.updatecomics)
   .delete(userController.deletecomics)
+  router.route('/v1/comments/:_id')
+  .put(userController.addcomment)
+
 
   // router.route('/v1/upseries/:_id')
 

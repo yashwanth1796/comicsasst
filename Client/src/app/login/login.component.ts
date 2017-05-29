@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       // this.auth.verifier(data)
       console.log(data)
       this.type = data.respData.data.role;
-
+      localStorage.setItem('role', this.type)
       if (this.type == "super Admin") {
 
         console.log("superadmin")
@@ -46,12 +46,11 @@ export class LoginComponent implements OnInit {
 
         console.log("user")
         this.router.navigate(["/User"])
-        
+
       }
 
 
 
     })
-
   }
 }
