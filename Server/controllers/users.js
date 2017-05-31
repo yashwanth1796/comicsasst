@@ -413,7 +413,8 @@ exports.postcomics = function(req, res) {
     starts_on: req.body.starts_on,
     ends_on: req.body.ends_on,
     created_at: new Date(),
-    updated_at: ""
+    updated_at: "",
+    comments: ""
 
   });
 
@@ -506,7 +507,7 @@ exports.addcomment = function(req, res) {
   var id = req.params._id;
   comics.findOne({
     _id: id
-  }, function(err, com) {
+  }, function(err, comic) {
     if (err) {
       res.json({
         status: false,
@@ -516,10 +517,10 @@ exports.addcomment = function(req, res) {
       });
     }
 
-    var comment = req.body.comments;
-    com.comments = comment;
+    var comments = req.body.comments;
+    comic.comments = comments;
 
-    com.save(function(err, response) {
+    comic.save(function(err, response) {
       if (err) {
         res.json({
           status: false,
@@ -622,7 +623,7 @@ exports.checkuser = function(req, res) {
 
 exports.searchcomics = function(req, res) {
   console.log(req.params.reg);
-  var regex = RegExp(req.params.reg);
+  var regex = RegExp(req.params.reg, "i");
 
   comics.find({
     Name: regex
@@ -636,18 +637,20 @@ exports.searchcomics = function(req, res) {
       });
     }
     if ((response || []).length === 0) {
-      res.json({
-        status: true,
+      return res.json({
+        status: false,
         respData: {
           data: "data doesnt exist"
         }
       });
     }
-    return res.json({
-      status: true,
-      respData: {
-        data: response
-      }
-    });
+      return res.json({
+        status: true,
+        respData: {
+          data: response
+        }
+      });
+
+
   })
 };
