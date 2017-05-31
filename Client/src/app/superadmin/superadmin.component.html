@@ -4,6 +4,8 @@
         <p class="text-center">Super Admin! Please Select your Action</p>
 
       </div>
-      <button (click)="gcomics()"> users </button>
+        <a [routerLink]="['users']">Users</a>
+
 </div>
 <button (click)="logout()" class="btn btn-danger" > logout </button>
+<router-outlet></router-outlet>

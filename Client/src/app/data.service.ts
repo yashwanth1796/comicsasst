@@ -92,32 +92,32 @@ export class DataService {
       data => data.json()
     );
   }
-   postseasons(a) {
+  postseasons(a) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     console.log(a)
     return this.httpService.post(this.con.UrlObj.postseasonsURL, a, headers)
       .map((res => res.json()));
   }
-   updateseasons(editid, a): Observable<any> {
+  updateseasons(editid, a): Observable<any> {
     console.log(a, "service")
 
-    return this.httpService.put(this.con.UrlObj.seasonsURL+ '/' + editid, a).map(
+    return this.httpService.put(this.con.UrlObj.seasonsURL + '/' + editid, a).map(
       data => data.json()
 
     )
   }
 
-  deleteuser(a): Observable<any>{
+  deleteuser(a): Observable<any> {
 
-    return this.httpService.delete(this.con.UrlObj.upusersURL+ '/' + a).map(
+    return this.httpService.delete(this.con.UrlObj.upusersURL + '/' + a).map(
       data => data.json()
     );
   }
-  
+
   postusers(a): Observable<any> {
 
-    return this.httpService.post(this.con.UrlObj.usersURL,a).map(
+    return this.httpService.post(this.con.UrlObj.usersURL, a).map(
       data => data.json()
     );
   }
@@ -130,7 +130,7 @@ export class DataService {
   updatecomics(editid, a): Observable<any> {
     console.log(a, "service")
 
-    return this.httpService.put(this.con.UrlObj.comicURL+ '/' + editid, a).map(
+    return this.httpService.put(this.con.UrlObj.comicURL + '/' + editid, a).map(
       data => data.json()
 
     )
@@ -143,8 +143,11 @@ export class DataService {
       .map((res => res.json()));
   }
 
-  addcomment(id,a): Observable<any> {
-    return this.httpService.put(this.con.UrlObj.commentsURL+id,a)
-    .map(resdata => resdata.json())
+  addcomment(id, a): Observable<any> {
+    console.log(id)
+    console.log(a)
+
+    return this.httpService.put(this.con.UrlObj.commentsURL + a, id)
+      .map(resdata => resdata.json())
   }
 }

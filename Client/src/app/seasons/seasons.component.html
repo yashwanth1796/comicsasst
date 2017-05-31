@@ -28,26 +28,27 @@
 
 <button (click)="openaaddform()" class="btn btn-success"> Add Seasons </button>
 <div *ngIf="flag">
-  <form #form1="ngForm" (ngSubmit)="addseasons(form1.value)">
+  <form #form1="ngForm" (ngSubmit)="addseasons(dropdown.value)">
     <div class="form-group">
-      <input required type="text" name="Name" [(ngModel)]="name_1" #name="ngModel" placeholder="Name of series" class="form-control">
-    </div>
-    <div class="form-group">
-      <input required type="text" name="description" [(ngModel)]="desc" #description="ngModel" placeholder="description" class="form-control">
+      <input required type="text" name="Name" [(ngModel)]="Newseason.Name" #name="ngModel" placeholder="Name of series" class="form-control">
     </div>
     <div class="form-group">
-      <input required type="text" name="Season_id" [(ngModel)]="ser" #id="ngModel" placeholder="season ID" class="form-control">
+      <input required type="text" name="description" [(ngModel)]="Newseason.description" #description="ngModel" placeholder="description"
+        class="form-control">
     </div>
-     <div class="form-group">
-      <input required type="text" name="Series_id" [(ngModel)]="ser1" #id="ngModel" placeholder="series ID" class="form-control">
+    <div class="form-group">
+      <input required type="number" name="Season_id" [(ngModel)]="Newseason.Season_id" #id="ngModel" placeholder="season ID" class="form-control">
     </div>
+    <select #dropdown>
+  <option  *ngFor="let n of series" name="Series_id" value={{n.Series_id}}>{{n.name}}</option>
+</select>
     <div class="form-group">
       <label>StartsOn</label>
-      <ng2-datepicker required name="starts_on" [(ngModel)]="start"></ng2-datepicker>
+      <ng2-datepicker required name="starts_on" [(ngModel)]="starts_on"></ng2-datepicker>
     </div>
     <div class="form-group">
       <label>Endson</label>
-      <ng2-datepicker required name="ends_on" [(ngModel)]="end"></ng2-datepicker>
+      <ng2-datepicker required name="ends_on" [(ngModel)]="ends_on"></ng2-datepicker>
     </div>
     <button type="submit" class="btn btn-success">submit</button>
   </form>
@@ -65,6 +66,7 @@
     <div class="form-group">
       <input required type="text" name="description" [(ngModel)]="desc" #description="ngModel" placeholder="description" class="form-control">
     </div>
+
     <div class="form-group">
       <label>StartsOn</label>
       <ng2-datepicker required name="starts_on" [(ngModel)]="start"></ng2-datepicker>

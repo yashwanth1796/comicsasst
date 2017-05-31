@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-user',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router1: Router) { }
 
   ngOnInit() {
   }
-
+logout() {
+    localStorage.clear()
+    console.log(localStorage.getItem('role'))
+    this.router1.navigate(['/login'])
+  }
 }

@@ -39,5 +39,7 @@ export class AdminComponent implements OnInit {
     console.log(localStorage.getItem('role'))
     this.router1.navigate(['/login'])
   }
+
+  
 }
 

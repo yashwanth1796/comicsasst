@@ -7,6 +7,8 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
   styleUrls: ['./comics.component.css']
 })
 export class ComicsComponent implements OnInit {
+  role: string;
+  seasons: any;
   base64: any;
   editid: any;
   comics: any;
@@ -23,7 +25,7 @@ export class ComicsComponent implements OnInit {
     Season_id: String,
     starts_on: String,
     ends_on: String,
-    Image: String
+    image: String
   }
   =
   {
@@ -33,15 +35,21 @@ export class ComicsComponent implements OnInit {
     Season_id: '',
     starts_on: '',
     ends_on: '',
-    Image: ''
+    image: ''
   };
-
+  starts_on: {
+    formatted: ''
+  }
+  ends_on: {
+    formatted: ''
+  }
   constructor(public dataservice: DataService, ) { this.options = new DatePickerOptions() }
 
   ngOnInit() {
     this.gcomics()
-  this.status=localStorage.getItem("role")
-    
+    this.gseasons();
+    this.status = localStorage.getItem("role")
+
 
   }
 
@@ -51,7 +59,7 @@ export class ComicsComponent implements OnInit {
     this.dataservice.getcomics()
       .subscribe(resdata => {
         console.log(resdata.respData.data)
-        this.comics = resdata.respData.data
+        this.comics = resdata.respData.data;
       })
 
   }
@@ -81,12 +89,13 @@ export class ComicsComponent implements OnInit {
     this.flag = 1;
   }
 
-  addcomic(data) {
-    data.starts_on = data.starts_on.formatted;
-    data.ends_on = data.ends_on.formatted;
-    data.image = this.base64;
-    console.log(data)
-    this.dataservice.postcomics(data)
+  addcomic(dropdown) {
+    this.Newcomic.starts_on = this.starts_on.formatted;
+    this.Newcomic.ends_on = this.ends_on.formatted;
+    this.Newcomic.image = this.base64;
+    this.Newcomic.Season_id = dropdown;
+    console.log(this.Newcomic)
+    this.dataservice.postcomics(this.Newcomic)
       .subscribe(resdata => {
         this.flag = 0
         this.gcomics()
@@ -107,7 +116,22 @@ export class ComicsComponent implements OnInit {
     reader.readAsDataURL(file);
     //console.log(this.base64);
   }
-// postcomment(){
-//   this.dataservice.addcomment()
-// }
+  postcomment(id, comment) {
+    console.log(id)
+    console.log(comment)
+
+    this.dataservice.addcomment(id, comment)
+      .subscribe(resdata => {
+        console.log(resdata)
+      })
+  }
+  gseasons() {
+
+    this.dataservice.getseasons()
+      .subscribe(resdata => {
+        this.seasons = resdata.respData.data;
+        console.log(this.seasons)
+      })
+  }
+
 }

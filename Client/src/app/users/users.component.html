@@ -12,6 +12,7 @@
         <td>{{item.username}}</td>
         <td>{{item.password}}</td>
         <td>{{item.role}}</td>
+
         <button (click)="save(item.username)" type="submit" class="btn btn-success">Edit</button>
         <button (click)="duser(item._id)" type="submit" class="btn btn-danger">Delete</button>
 
@@ -23,28 +24,32 @@
 </div>
 
 <div *ngIf="flag">
-  <form #form1="ngForm" (ngSubmit)="updateuser(form1.value)">
+  <form #form1="ngForm" (ngSubmit)="updateuser(dropdown.value)">
     <div class="form-group">
-      <input required type="text" name="password" [(ngModel)]="name_1" #name="ngModel" placeholder="Change password" class="form-control">
+      <input required type="text" name="password" [(ngModel)]="Newuser.password" #name="ngModel" placeholder="Change password" class="form-control">
     </div>
-    <div class="form-group">
-      <input required type="description" name="role" [(ngModel)]="desc" #description="ngModel" placeholder="role"
-        class="form-control">
-    </div>
+         <select #dropdown>
+  <option  name="role" value="Admin"  ngDefaultControl>Admin</option>
+  <option   name="role" value="user"  ngDefaultControl>user</option>
+</select>
+
     <button type="submit" class="btn btn-success">Proceed</button>
   </form>
 </div>
-        <button (click)="flagd()" type="submit" class="btn btn-success">Add User</button>
+<button (click)="flagd()" type="submit" class="btn btn-success">Add User</button>
 
-  <div *ngIf="flag1">
+<div *ngIf="flag1">
   <div class="container">
 
-    <form (ngSubmit)="addusers()" #DetailsForm='ngForm'>
+    <form (ngSubmit)="addusers(dropdown.value)" #DetailsForm='ngForm'>
       <input type="text" name="username" #Series placeholder="Enter the user name" [(ngModel)]="Newuser.username">
       <input type="text" name="password" #Data placeholder="Enter description" [(ngModel)]="Newuser.password">
+    
+        <select #dropdown>
+  <option  name="role" value="Admin"  ngDefaultControl>Admin</option>
+  <option   name="role" value="user"  ngDefaultControl>user</option>
+</select>
 
-      <input type="text" name="role" #Data placeholder="Created by" [(ngModel)]="Newuser.role">
-      <!--<input type="text" name="Series_id" #Data placeholder="Enter series id" [(ngModel)]="Newuser.Series_id">-->
 
       <button>Submit</button>
     </form>

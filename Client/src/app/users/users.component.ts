@@ -38,10 +38,10 @@ export class UsersComponent implements OnInit {
         console.log(this.users)
       })
   }
-  updateuser(form1) {
+  updateuser(dropdown) {
 
-    this.Newuser.password = form1.password;
-    this.Newuser.role = form1.role;
+    // this.Newuser.password = form1.password;
+    this.Newuser.role = dropdown;
     console.log(this.Newuser)
     this.dataservice.updateuser(this.Newuser)
       .subscribe(resdata => {
@@ -75,13 +75,17 @@ export class UsersComponent implements OnInit {
     this.dataservice.deleteuser(item)
       .subscribe(resdata => {
         console.log(resdata)
+        this.gusers()
+
       })
 
   }
   flagd() {
     this.flag1 = 1;
   }
-  addusers() {
+  addusers(dropdown) {
+    console.log(dropdown)
+    this.Newuser.role = dropdown;
     console.log(this.Newuser)
     this.dataservice.postusers(this.Newuser)
       .subscribe(resdata => {

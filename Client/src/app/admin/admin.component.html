@@ -80,20 +80,15 @@
     </tbody>
   </table>
 </div>-->
-<button (click)="logout()" class="btn btn-danger" style="margin-left:1200px"> logout </button>
 
 <nav>
   <a [routerLink]="['comics']">comics</a>
+  <a [routerLink]="['seasons']">seasons</a>
+  <a [routerLink]="['series']">series</a>
+
 
 </nav>
-<!--<div class="container">
+<button (click)="logout()" class="btn btn-danger" style="margin-left:1200px"> logout </button>
 
-  <form (ngSubmit)= "addseries()" #DetailsForm='ngForm'>
-    <input type="text" name="series" #Series placeholder="Enter the series name" [(ngModel)]="NewSeries.name">
-    <input type="text" name="Data" #Data placeholder="Enter Data" [(ngModel)]="NewSeries.description">
-    <input type="text" name="Series_id" #Data placeholder="Enter series id" [(ngModel)]="NewSeries.Series_id">
-    <button>Submit</button>
-  </form>
-</div>-->
 
 <router-outlet> </router-outlet>

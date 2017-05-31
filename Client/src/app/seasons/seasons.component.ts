@@ -7,32 +7,33 @@ import { DataService } from "app/data.service";
   styleUrls: ['./seasons.component.css']
 })
 export class SeasonsComponent implements OnInit {
+  date: any;
+  series: any;
   editid: any;
   flag = 0;
   flag1 = 0;
   seasons: any;
   season: any;
-  Newseason: {
-    Name: String,
-    description: String,
-    Series_id: String,
-    Season_id: String,
-    starts_on: String,
-    ends_on: String
-  }
-  =
-  {
+  Newseason = {
     Name: '',
     description: '',
     Series_id: '',
     Season_id: '',
     starts_on: '',
     ends_on: ''
+
+  };
+  ends_on = {
+    formatted: ''
+  };
+  starts_on = {
+    formatted: ''
   };
   constructor(public dataservice: DataService) { }
 
   ngOnInit() {
     this.gseasons()
+    this.gseries();
 
   }
   gseasons() {
@@ -44,10 +45,16 @@ export class SeasonsComponent implements OnInit {
       })
   }
 
-  addseasons(data) {
-    data.starts_on = data.starts_on.formatted;
-    data.ends_on = data.ends_on.formatted;
-    this.dataservice.postseasons(data)
+  addseasons(dropdown) {
+    console.log(dropdown)
+    this.Newseason.ends_on=this.ends_on.formatted;
+    this.Newseason.starts_on=this.starts_on.formatted;
+    this.Newseason.Series_id=dropdown;
+    console.log(this.Newseason)
+    // console.log(this.ends_on)
+    
+
+    this.dataservice.postseasons(this.Newseason)
       .subscribe(resdata => {
         console.log(resdata)
         this.gseasons();
@@ -81,5 +88,13 @@ export class SeasonsComponent implements OnInit {
         this.flag1 = 0;
       })
   }
+  gseries() {
 
+    this.dataservice.getseries()
+      .subscribe(resdata => {
+        this.series = resdata.respData.data;
+
+        console.log(this.series)
+      })
+  }
 }
