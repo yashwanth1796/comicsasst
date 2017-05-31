@@ -22,33 +22,23 @@ export class LoginComponent implements OnInit {
   }
 
   check(form1) {
-    // console.log(form1.value.username);
-    // console.log(form1.value.password);
-    // console.log(form1)
     this.dataservice.checkusers(form1).subscribe(data => {
       console.log(data, "fromservice");
-      // this.auth.verifier(data)
       console.log(data)
       this.type = data.respData.data.role;
       localStorage.setItem('role', this.type)
-      if (this.type == "super Admin") {
-
-        console.log("superadmin")
-
-        this.router.navigate(["/superadmin"])
-      }
-      else if (this.type == "Admin") {
-        console.log("admin")
-        this.router.navigate(["/admin"])
-
-      }
-      else {
-
-        console.log("user")
-        this.router.navigate(["/User"])
-
-      }
-
+switch(this.type){
+  case  "super Admin" : this.router.navigate(["/superadmin"])
+  break;
+  case  "Admin" : this.router.navigate(["/admin"])
+  break;
+  case  "user" : this.router.navigate(["/User"])
+  break;
+  default:
+  alert("user dosen't exist")
+   this.router.navigate(["/login"])
+  
+}
 
 
     })
