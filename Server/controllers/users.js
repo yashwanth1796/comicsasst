@@ -2,6 +2,8 @@ var User = require('../models/user');
 var series = require('../models/series');
 var seasons = require('../models/seasons');
 var comics = require('../models/comics');
+var comments = require('../models/comments');
+
 
 //user functions
 exports.postUsers = function(req, res) {
@@ -270,10 +272,10 @@ exports.postseasons = function(req, res) {
     description: req.body.description,
     starts_on: req.body.starts_on,
     ends_on: req.body.ends_on,
-    Series_id: req.body.Series_id,
+    Series_name: req.body.Series_name,
     created_at: new Date(),
     updated_at: "",
-    Season_id: req.body.Season_id
+    // Season_id: req.body.Season_id
 
   });
 
@@ -309,6 +311,26 @@ exports.getseasons = function(req, res) {
     }
 
     res.json({
+      status: true,
+      respData: {
+        data: response
+      }
+    });
+  })
+}
+exports.getseason = function(req, res) {
+  var name = req.params.Series_name;
+  seasons.find({Series_name:name}, function(err, response) {
+    if (err) {
+      res.json({
+        status: false,
+        respData: {
+          data: err
+        }
+      });
+    }
+
+  return  res.json({
       status: true,
       respData: {
         data: response
@@ -409,7 +431,8 @@ exports.postcomics = function(req, res) {
     Name: req.body.Name,
     Story: req.body.Story,
     image: req.body.image,
-    Season_id: req.body.Season_id,
+    Season_name: req.body.Season_name,
+    Series_name: req.body.Series_name,
     starts_on: req.body.starts_on,
     ends_on: req.body.ends_on,
     created_at: new Date(),
@@ -503,42 +526,6 @@ exports.updatecomics = function(req, res) {
   })
 }
 
-exports.addcomment = function(req, res) {
-  var id = req.params._id;
-  comics.findOne({
-    _id: id
-  }, function(err, comic) {
-    if (err) {
-      res.json({
-        status: false,
-        respData: {
-          data: err
-        }
-      });
-    }
-
-    var comments = req.body.comments;
-    comic.comments = comments;
-
-    comic.save(function(err, response) {
-      if (err) {
-        res.json({
-          status: false,
-          respData: {
-            data: err
-          }
-        });
-      }
-
-      res.json({
-        status: true,
-        respData: {
-          data: response
-        }
-      });
-    })
-  })
-}
 
 exports.deletecomics = function(req, res) {
   var id = req.params._id;
@@ -623,7 +610,7 @@ exports.checkuser = function(req, res) {
 
 exports.searchcomics = function(req, res) {
   console.log(req.params.reg);
-  var regex = RegExp(req.params.reg, "i");
+  var regex = RegExp(req.params.reg);
 
   comics.find({
     Name: regex
@@ -654,3 +641,53 @@ exports.searchcomics = function(req, res) {
 
   })
 };
+
+exports.postcomment = function(req, res) {
+  var comment = new comments({
+    Comic_id: req.body.Comic_id,
+    Comment: req.body.Comment,
+    User_name: req.body.User_name,
+    posted_at: new Date(),
+
+
+  });
+
+  comment.save(function(err, response) {
+    if (err) {
+      res.json({
+        status: false,
+        respData: {
+          data: err
+        }
+      })
+    }
+
+    res.json({
+      status: true,
+      respData: {
+        data: response
+      }
+    });
+
+  });
+};
+
+exports.getcomment = function(req, res) {
+  comments.find({}, function(err, response) {
+    if (err) {
+      res.json({
+        status: fasle,
+        respData: {
+          data: err
+        }
+      });
+    }
+
+    res.json({
+      status: true,
+      respData: {
+        data: response
+      }
+    });
+  })
+}
