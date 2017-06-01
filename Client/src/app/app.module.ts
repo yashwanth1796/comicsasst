@@ -19,6 +19,7 @@ import { AdminComponent } from './admin/admin.component';
 import { UsersComponent } from './users/users.component';
 import { UserComponent } from './user/user.component';
 import { DatePickerModule } from 'ng2-datepicker';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DatePickerModule } from 'ng2-datepicker';
     SearchresultComponent,
     AdminComponent,
     UsersComponent,
-    UserComponent
+    UserComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

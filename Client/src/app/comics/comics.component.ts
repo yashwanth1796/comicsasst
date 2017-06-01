@@ -7,7 +7,10 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
   styleUrls: ['./comics.component.css']
 })
 export class ComicsComponent implements OnInit {
-  role: string;
+  season: any;
+  series: any;
+  user: any;
+  role: any;
   seasons: any;
   base64: any;
   editid: any;
@@ -21,8 +24,8 @@ export class ComicsComponent implements OnInit {
   Newcomic: {
     Name: String,
     Story: String,
-    Series_id: String,
-    Season_id: String,
+    Series_name: String,
+    Season_name: String,
     starts_on: String,
     ends_on: String,
     image: String
@@ -31,8 +34,8 @@ export class ComicsComponent implements OnInit {
   {
     Name: '',
     Story: '',
-    Series_id: '',
-    Season_id: '',
+    Series_name: '',
+    Season_name: '',
     starts_on: '',
     ends_on: '',
     image: ''
@@ -43,12 +46,27 @@ export class ComicsComponent implements OnInit {
   ends_on: {
     formatted: ''
   }
+
+  newcomment:
+  {
+    Comic_id: String,
+    Comment:String,
+    User_name:String,
+  }={
+    Comic_id:'',
+    Comment:'',
+    User_name:'',
+  }
+
   constructor(public dataservice: DataService, ) { this.options = new DatePickerOptions() }
 
   ngOnInit() {
-    this.gcomics()
+    this.gcomics();
     this.gseasons();
-    this.status = localStorage.getItem("role")
+    this. gseries();
+    this.status = localStorage.getItem('role')
+    this.user = localStorage.getItem('username')
+    console.log(this.status)
 
 
   }
@@ -68,6 +86,7 @@ export class ComicsComponent implements OnInit {
     this.dataservice.deletecomics(items)
       .subscribe(resdata => {
         console.log(resdata)
+        alert( "Comic deleted") 
         this.gcomics()
 
       })
@@ -89,11 +108,13 @@ export class ComicsComponent implements OnInit {
     this.flag = 1;
   }
 
-  addcomic(dropdown) {
+  addcomic(dropdown,dropdown1) {
     this.Newcomic.starts_on = this.starts_on.formatted;
     this.Newcomic.ends_on = this.ends_on.formatted;
     this.Newcomic.image = this.base64;
-    this.Newcomic.Season_id = dropdown;
+    this.Newcomic.Season_name = dropdown;
+    this.Newcomic.Series_name = dropdown1;
+    
     console.log(this.Newcomic)
     this.dataservice.postcomics(this.Newcomic)
       .subscribe(resdata => {
@@ -119,10 +140,15 @@ export class ComicsComponent implements OnInit {
   postcomment(id, comment) {
     console.log(id)
     console.log(comment)
+    this.newcomment.Comic_id=comment
+    this.newcomment.User_name=this.user;
+    this.newcomment.Comment=id;
+    console.log(this.newcomment)
 
-    this.dataservice.addcomment(id, comment)
+    this.dataservice.addcomment(this.newcomment)
       .subscribe(resdata => {
         console.log(resdata)
+        this.getcomments();
       })
   }
   gseasons() {
@@ -134,4 +160,29 @@ export class ComicsComponent implements OnInit {
       })
   }
 
+getcomments(){
+  this.dataservice.getcomment()
+  .subscribe(resdata => {
+    console.log(resdata)
+  })
+}
+  gseries() {
+
+    this.dataservice.getseries()
+      .subscribe(resdata => {
+        this.series = resdata.respData.data;
+
+        console.log(this.series)
+        // this.dataservice.setseries(this.series)
+      })
+  }
+    pseason(seriesname){
+      // alert(2);
+    this.dataservice.gsea(seriesname)
+    .subscribe(resdata => {
+      this.season=resdata.respData.data;
+        // console.log(resdata)
+      
+    })
+  }
 }

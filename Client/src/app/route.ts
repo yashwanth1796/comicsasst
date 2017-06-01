@@ -27,8 +27,7 @@ export const rou: Routes = [
             role: 'super Admin'
         }], canActivate: [AuthService], children: [
             { path: 'users', component: UsersComponent },
-
-        ]
+        ],
     },
     { path: 'comics', component: ComicsComponent },
     { path: 'searchresult', component: SearchresultComponent },

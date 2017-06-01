@@ -10,6 +10,7 @@ import { CanActivate, Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  type1: any;
   type: any;
   user: string;
   pass: string;
@@ -26,7 +27,11 @@ export class LoginComponent implements OnInit {
       console.log(data, "fromservice");
       console.log(data)
       this.type = data.respData.data.role;
+      this.type1 = data.respData.data.username;
+      
       localStorage.setItem('role', this.type)
+      localStorage.setItem('username', this.type1)
+      
 switch(this.type){
   case  "super Admin" : this.router.navigate(["/superadmin"])
   break;

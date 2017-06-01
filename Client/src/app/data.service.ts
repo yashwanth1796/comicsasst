@@ -6,6 +6,7 @@ import { Configuration } from './config';
 
 @Injectable()
 export class DataService {
+  seriesdata: any;
   set: any;
   // variable: string
   constructor(public httpService: Http, public con: Configuration) { }
@@ -143,11 +144,24 @@ export class DataService {
       .map((res => res.json()));
   }
 
-  addcomment(id, a): Observable<any> {
-    console.log(id)
+  addcomment(a): Observable<any> {
+
     console.log(a)
 
-    return this.httpService.put(this.con.UrlObj.commentsURL + a, id)
+    return this.httpService.post(this.con.UrlObj.commentsURL, a)
       .map(resdata => resdata.json())
   }
+
+  gsea(a): Observable<any> {
+    return this.httpService.get(this.con.UrlObj.gseasURL + a)
+    .map(resdata => resdata.json())
+  }
+
+getcomment(): Observable<any> {
+
+  return this.httpService.get(this.con.UrlObj.commentsURL)
+      .map(resdata => resdata.json())
+  
+
+}
 }

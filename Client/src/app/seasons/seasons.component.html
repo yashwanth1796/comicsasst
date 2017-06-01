@@ -4,17 +4,22 @@
     <thead>
       <th>Name</th>
       <th>Description</th>
+      <th>series name</th>
+      
       <th>Startson</th>
       <th>Ends On</th>
-
+<!--<th> Series naME </th>-->
 
     </thead>
     <tbody>
       <tr *ngFor="let item of seasons">
         <td>{{item.Name}}</td>
         <td>{{item.description}}</td>
+        <td>{{item.Series_name}}</td>
         <td>{{item.starts_on}}</td>
         <td>{{item.ends_on}}</td>
+        
+        <!--<td *ngFor="let n of series"> {{n.name}}</td>-->
         <button (click)="dseasons(item._id)" type="submit" class="btn btn-danger">Delete</button>
 
         <button (click)="savesea(item._id)" type="submit" class="btn btn-success">Edit</button>
@@ -30,17 +35,15 @@
 <div *ngIf="flag">
   <form #form1="ngForm" (ngSubmit)="addseasons(dropdown.value)">
     <div class="form-group">
-      <input required type="text" name="Name" [(ngModel)]="Newseason.Name" #name="ngModel" placeholder="Name of series" class="form-control">
+      <input required type="text" name="Name" [(ngModel)]="Newseason.Name" #name="ngModel" placeholder="Name of season" class="form-control">
     </div>
     <div class="form-group">
       <input required type="text" name="description" [(ngModel)]="Newseason.description" #description="ngModel" placeholder="description"
         class="form-control">
     </div>
-    <div class="form-group">
-      <input required type="number" name="Season_id" [(ngModel)]="Newseason.Season_id" #id="ngModel" placeholder="season ID" class="form-control">
-    </div>
+    <label> series name </label>
     <select #dropdown>
-  <option  *ngFor="let n of series" name="Series_id" value={{n.Series_id}}>{{n.name}}</option>
+  <option  *ngFor="let item of series" name="Series_id" value={{item.name}} >{{item.name}}</option>
 </select>
     <div class="form-group">
       <label>StartsOn</label>

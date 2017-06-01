@@ -17,10 +17,9 @@ export class SeasonsComponent implements OnInit {
   Newseason = {
     Name: '',
     description: '',
-    Series_id: '',
-    Season_id: '',
     starts_on: '',
-    ends_on: ''
+    ends_on: '',
+    Series_name:''
 
   };
   ends_on = {
@@ -46,10 +45,12 @@ export class SeasonsComponent implements OnInit {
   }
 
   addseasons(dropdown) {
-    console.log(dropdown)
+    // console.log(dropdown)
     this.Newseason.ends_on=this.ends_on.formatted;
     this.Newseason.starts_on=this.starts_on.formatted;
-    this.Newseason.Series_id=dropdown;
+    this.Newseason.Series_name=dropdown;
+    // this.Newseason.Series_name=dropdown;
+    
     console.log(this.Newseason)
     // console.log(this.ends_on)
     
@@ -71,6 +72,8 @@ export class SeasonsComponent implements OnInit {
     this.dataservice.deleteseasons(items)
       .subscribe(resdata => {
         console.log(resdata)
+                alert( "season deleted") 
+
         this.gseasons()
       })
   }
@@ -97,4 +100,6 @@ export class SeasonsComponent implements OnInit {
         console.log(this.series)
       })
   }
+
+
 }

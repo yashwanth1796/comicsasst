@@ -38,22 +38,15 @@ export class SeriesComponent implements OnInit {
         this.series = resdata.respData.data;
 
         console.log(this.series)
+        // this.dataservice.setseries(this.series)
       })
   }
   dseries(items) {
     console.log(items)
     this.dataservice.deleteseries(items)
       .subscribe(res => {
-        this.delted = res.status;
-        console.log(this.delted)
-        // console.log(res)
-        if (this.delted == "true") {
           alert("series Deleted");
-        }
         this.gseries()
-
-
-
       })
 
   }
@@ -63,6 +56,8 @@ export class SeriesComponent implements OnInit {
     this.dataservice.postseries(this.NewSeries)
       .subscribe(data => {
         console.log(data);
+    this.flag = 0;
+        
         this.gseries();
       })
 
@@ -86,5 +81,11 @@ export class SeriesComponent implements OnInit {
         this.flag1 = 0
       })
   }
-
+getsea(Series_id){
+  console.log(Series_id)
+  this.dataservice.gsea(Series_id)
+  .subscribe(res => {
+    console.log(res)
+  })
+}
 }
