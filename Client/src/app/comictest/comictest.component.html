@@ -1,0 +1,15 @@
+  <div *ngIf="flag1">
+  <h3> Search results </h3>
+    
+<div *ngFor="let item of searchresults">
+    
+    <div class="container">
+      <label> Name </label> {{item.Name}}
+      <br>
+      <label> startson</label> {{item.starts_on}}<br>
+
+      <label> story</label> {{item.story}}
+
+    </div>
+
+  </div>

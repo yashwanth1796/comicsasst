@@ -158,8 +158,9 @@ export class DataService {
   }
 
 getcomment(): Observable<any> {
+  console.log()
 
-  return this.httpService.get(this.con.UrlObj.commentsURL)
+  return this.httpService.get(this.con.UrlObj.commentsURL )
       .map(resdata => resdata.json())
   
 

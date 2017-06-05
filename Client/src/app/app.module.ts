@@ -20,6 +20,7 @@ import { UsersComponent } from './users/users.component';
 import { UserComponent } from './user/user.component';
 import { DatePickerModule } from 'ng2-datepicker';
 import { HeaderComponent } from './header/header.component';
+import { ComictestComponent } from './comictest/comictest.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { HeaderComponent } from './header/header.component';
     AdminComponent,
     UsersComponent,
     UserComponent,
-    HeaderComponent
+    HeaderComponent,
+    ComictestComponent
   ],
   imports: [
     BrowserModule,

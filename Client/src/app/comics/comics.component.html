@@ -13,49 +13,46 @@
       <th>Image</th>
       <th>series name</th>
       <th>season name</th>
-
-
-
     </thead>
     <tbody>
       <tr *ngFor="let item of comics">
         <td>{{item.Name}}</td>
         <td>{{item.Story}}</td>
-        <td><img src='{{item.image}}' height="100" width="100"></td>
-        <!--<td><img src="{{item.image}}"></td>-->
-
+        <td><img src= '{{item.image}}' height="100" width="100"></td>
         <td>{{item.Series_name}}</td>
         <td>{{item.Season_name}}</td>
-
-
-
+         <div *ngFor= "let item of comments">
+           <label> {{item.Comment}} </label> 
+        </div>
         <div *ngIf="status=='Admin'">
           <button (click)="dcomics(item._id)" type="submit" class="btn btn-danger">Delete</button>
           <button (click)="savecom(item._id)" type="submit" class="btn btn-success">Edit</button>
         </div>
+
         <div *ngIf="status=='user'">
           <input type="description" name="comments" #box placeholder="Comment">
-          <button (click)="postcomment(box.value,item._id)" class="btn btn-default">Comment</button>
+          <button (click)="postcomment(item._id,box.value)" class="btn btn-default">Comment</button>
         </div>
+
       </tr>
     </tbody>
   </table>
 
 </div>
 <div *ngIf="status=='Admin'">
-
   <button (click)="openaaddform()" class="btn btn-success"> Add Comics </button>
 </div>
+
 <div *ngIf="flag1">
   <form #form1="ngForm" (ngSubmit)="updatecom(form1.value)">
     <div class="form-group">
-
       <input type="text" name="Name" #Series placeholder="Enter new comic name" [(ngModel)]="newname" class="form-control">
     </div>
 
     <div class="form-group">
       <input required type="description" name="Story" [(ngModel)]="desc" #description="ngModel" class="form-control">
     </div>
+
     <button type="submit" class="btn btn-success">Proceed</button>
   </form>
 </div>
@@ -66,31 +63,36 @@
     <div class="form-group">
       <input required type="text" name="Name" [(ngModel)]="Newcomic.Name" #name="ngModel" placeholder="Name of comic" class="form-control">
     </div>
+
     <div class="form-group">
       <input required type="text" name="Story" [(ngModel)]="Newcomic.Story" #description="ngModel" placeholder="Story" class="form-control">
     </div>
+
     <label> select series </label>
     <select #dropdown1 (change)="pseason(dropdown1.value)">
   <option  *ngFor="let item of series" name="Series_name" value={{item.name}}>{{item.name}}</option>
 </select > 
-
     <label> select season </label> 
-
     <select #dropdown>
   <option  *ngFor="let n of season" name="Season_name" value={{n.Name}}>{{n.Name}}</option>
 </select>
+
     <div class="form-group">
       <label>StartsOn</label>
       <ng2-datepicker required name="starts_on" [(ngModel)]="starts_on"></ng2-datepicker>
     </div>
+
     <div class="form-group">
       <label>Endson</label>
       <ng2-datepicker required name="ends_on" [(ngModel)]="ends_on"></ng2-datepicker>
     </div>
+
     <div class="form-group">
       <label for="image">Destination</label>
       <input type="file" name="image" accept="image/*" (change)="changeListener($event)" />
     </div>
+
     <button type="submit" class="btn btn-success">submit</button>
   </form>
 </div>
+

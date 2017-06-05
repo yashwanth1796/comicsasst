@@ -29,7 +29,7 @@ export const rou: Routes = [
             { path: 'users', component: UsersComponent },
         ],
     },
-    { path: 'comics', component: ComicsComponent },
+    // { path: 'comics', component: ComicsComponent },
     { path: 'searchresult', component: SearchresultComponent },
     {
         path: 'admin', component: AdminComponent, data: [{
@@ -42,8 +42,8 @@ export const rou: Routes = [
 
         ]
     },
-    { path: 'series', component: SeriesComponent },
-    { path: 'users', component: UsersComponent },
+    // { path: 'series', component: SeriesComponent },
+    // { path: 'users', component: UsersComponent },
     {
         path: 'User', component: UserComponent,
         children: [
@@ -54,7 +54,7 @@ export const rou: Routes = [
     },
 
 
-    { path: 'seasons', component: SeasonsComponent },
+    // { path: 'seasons', component: SeasonsComponent },
 
 
 

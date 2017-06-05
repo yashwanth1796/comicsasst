@@ -7,6 +7,8 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
   styleUrls: ['./comics.component.css']
 })
 export class ComicsComponent implements OnInit {
+  comments: any;
+  comicid: any;
   season: any;
   series: any;
   user: any;
@@ -64,6 +66,7 @@ export class ComicsComponent implements OnInit {
     this.gcomics();
     this.gseasons();
     this. gseries();
+    this.getcomments();
     this.status = localStorage.getItem('role')
     this.user = localStorage.getItem('username')
     console.log(this.status)
@@ -138,11 +141,12 @@ export class ComicsComponent implements OnInit {
     //console.log(this.base64);
   }
   postcomment(id, comment) {
+    this.comicid= id;
     console.log(id)
     console.log(comment)
-    this.newcomment.Comic_id=comment
+    this.newcomment.Comic_id=id
     this.newcomment.User_name=this.user;
-    this.newcomment.Comment=id;
+    this.newcomment.Comment=comment;
     console.log(this.newcomment)
 
     this.dataservice.addcomment(this.newcomment)
@@ -163,7 +167,10 @@ export class ComicsComponent implements OnInit {
 getcomments(){
   this.dataservice.getcomment()
   .subscribe(resdata => {
-    console.log(resdata)
+    // console.log(resdata.respData.data, "comments")
+    this.comments= resdata.respData.data;
+    console.log(this.comments, "comments")
+    
   })
 }
   gseries() {
@@ -185,4 +192,5 @@ getcomments(){
       
     })
   }
+
 }
