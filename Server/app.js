@@ -2,7 +2,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-
+var http = require('http').Server(app);
 // Connect to the MongoDB
 mongoose.connect('mongodb://localhost:27017/assignment');
 
@@ -14,9 +14,10 @@ var NODE_ENV = 'development';
 app.set('env', process.env.NODE_ENV || 'production');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
+// app.use(express.bodyParser({uploadDir:'/home/user/Pictures'}));
 app.use(bodyParser.json({limit:'50mb'}));
-
+app.use(express.static(__dirname ))
+console.log(__dirname)
 routes = require('./routes/index')
 app.use('/api', routes);
 
@@ -26,3 +27,6 @@ var port = process.env.PORT || 2000;
 // Start the server
 app.listen(port);
 console.log('Insert getat on port ' + port);
+// http.listen(port,"0.0.0.0", function(){
+//   console.log('listening on *:' + port);
+// });

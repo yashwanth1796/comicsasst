@@ -3,6 +3,7 @@ var series = require('../models/series');
 var seasons = require('../models/seasons');
 var comics = require('../models/comics');
 var comments = require('../models/comments');
+var FileSystem = require ('fs')
 
 
 //user functions
@@ -441,20 +442,57 @@ exports.postcomics = function(req, res) {
 
   });
 
-  user.save(function(err, response) {
-    if (err) {
-      res.json({
-        status: false,
-        respData: {
-          data: err
-        }
-      })
-    }
+  // let image = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJD//Z'
+// let image = user.image;
 
+
+    let image = user.image;
+    let name = user.Name;
+    let matches = image.match(/^data:([A-Za-z-+/]+);base64,(.+)$/)
+
+    // An empty object
+    let response = {}
+
+    if (matches.length !== 3) {
+     return new Error('Invalid input string')
+    }
+    // Image type (i.e. image/jpeg)
+    response.type = matches[1]
+    // Image base64 data
+    response.data = new Buffer(matches[2], 'base64')
+    var data = imageNameData(image);
+    function imageNameData (data) {
+        var imageName = name + '_' + Math.random();
+        if (data.indexOf('image/jpeg') > -1) {
+            return imageName + '.jpeg';
+        }
+        if (data.indexOf('image/png') > -1) {
+            return imageName + '.png';
+        }
+        if (data.indexOf('image/gif') > -1) {
+            return imageName + '.gif';
+        }
+    }
+    var imageName = '/home/user/series_node' +  '/' + data;
+
+    FileSystem.writeFile(imageName, response.data, function (error) {
+      console.log(response.data)
+      if (error) throw error
+    })
+    user.image = data;
+    user.save(function(err, response1) {
+      if (err) {
+        res.json({
+          status: false,
+          respData: {
+            data: err
+          }
+        })
+      }
     res.json({
       status: true,
       respData: {
-        data: response
+        data: response1
       }
     });
 
@@ -463,6 +501,8 @@ exports.postcomics = function(req, res) {
 
 exports.getcomics = function(req, res) {
   comics.find({}, function(err, response) {
+    // console.log(comics.image,"first")
+
     if (err) {
       res.json({
         status: fasle,
@@ -471,7 +511,11 @@ exports.getcomics = function(req, res) {
         }
       });
     }
-
+    for(var l=0; l<response.length; l++){
+      response[l].image= "http://192.168.15.100:2000/" +  response[l].image
+      console.log(response[l].image);
+    }
+    console.log(response)
     res.json({
       status: true,
       respData: {
@@ -673,6 +717,7 @@ exports.postcomment = function(req, res) {
 };
 
 exports.getcomment = function(req, res) {
+  // var id = req.params.Comic_id
   comments.find({}, function(err, response) {
     if (err) {
       res.json({
