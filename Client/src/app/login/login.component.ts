@@ -10,6 +10,8 @@ import { CanActivate, Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  usercheck: any;
+  token: any;
   type1: any;
   type: any;
   user: string;
@@ -23,28 +25,35 @@ export class LoginComponent implements OnInit {
   }
 
   check(form1) {
+    console.log(form1)
     this.dataservice.checkusers(form1).subscribe(data => {
-      console.log(data, "fromservice");
-      console.log(data)
-      this.type = data.respData.data.role;
-      this.type1 = data.respData.data.username;
-      
-      localStorage.setItem('role', this.type)
-      localStorage.setItem('username', this.type1)
-      
-switch(this.type){
-  case  "super Admin" : this.router.navigate(["/superadmin"])
-  break;
-  case  "Admin" : this.router.navigate(["/admin"])
-  break;
-  case  "user" : this.router.navigate(["/User"])
-  break;
-  default:
-  alert("user dosen't exist")
-   this.router.navigate(["/login"])
-  
-}
+      this.usercheck = data.respData.data
+      if (this.usercheck == 'user not found') {
+        alert('user not found')
+      }
+      else {
+        this.token = data.respData.token;
+        localStorage.setItem('token', this.token)
+        this.type = data.respData.data;
+        localStorage.setItem('role', this.type)
+        this.dataservice.settoken();
+        console.log(this.type, "role in login")
 
+        switch (this.type) {
+          case "superadmin": this.router.navigate(["/superadmin"])
+            break;
+          case "admin": this.router.navigate(["/admin"])
+            break;
+          case "user": this.router.navigate(["/User"])
+            break;
+          case " ": this.router.navigate(["/login"])
+            break;
+          default:
+            alert("Wrong password")
+            this.router.navigate(["/login"])
+
+        }
+      }
 
     })
   }

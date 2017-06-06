@@ -3,13 +3,19 @@ var series = require('../models/series');
 var seasons = require('../models/seasons');
 var comics = require('../models/comics');
 var comments = require('../models/comments');
-var FileSystem = require ('fs')
-
+var FileSystem = require('fs');
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
 
 //user functions
 exports.postUsers = function(req, res) {
   var user = new User({username: req.body.username, password: req.body.password, type: req.body.type, role: req.body.role});
-
+  const saltRounds = 10;
+  var salt = bcrypt.genSaltSync(saltRounds);
+  var hash = bcrypt.hashSync(user.password, salt);
+  console.log(hash);
+  user.password = hash;
+  console.log(user.password, "save");
   user.save(function(err, response) {
     if (err) {
       res.json({
@@ -58,18 +64,14 @@ exports.updateUsers = function(req, res) {
     if (err) {
       res.json(err);
     }
-
-    // var username = req.body.username;
     var password = req.body.password;
-    // var type = req.body.type;
     var role = req.body.role;
-    // user.username = username;
-    user.password = password;
-    // user.type = type;
+    const saltRounds = 10;
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hash = bcrypt.hashSync(password, salt);
+    user.password = hash;
     user.role = role;
-
     user.updated_at = new Date();
-
     user.save(function(err, response) {
       if (err) {
         res.json({
@@ -83,7 +85,7 @@ exports.updateUsers = function(req, res) {
       res.json({
         status: true,
         respData: {
-          data: response
+          data: "updated"
         }
       });
     })
@@ -141,7 +143,7 @@ exports.postseries = function(req, res) {
     updated_at: ""
 
   });
-
+  console.log(user)
   user.save(function(err, response) {
     if (err) {
       res.json({
@@ -321,7 +323,9 @@ exports.getseasons = function(req, res) {
 }
 exports.getseason = function(req, res) {
   var name = req.params.Series_name;
-  seasons.find({Series_name:name}, function(err, response) {
+  seasons.find({
+    Series_name: name
+  }, function(err, response) {
     if (err) {
       res.json({
         status: false,
@@ -331,7 +335,7 @@ exports.getseason = function(req, res) {
       });
     }
 
-  return  res.json({
+    return res.json({
       status: true,
       respData: {
         data: response
@@ -441,54 +445,51 @@ exports.postcomics = function(req, res) {
     comments: ""
 
   });
+  let image = user.image;
+  console.log(user)
+  let name = user.Name;
+  let matches = image.match(/^data:([A-Za-z-+/]+);base64,(.+)$/)
 
-  // let image = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJD//Z'
-// let image = user.image;
+  let response = {}
 
-
-    let image = user.image;
-    let name = user.Name;
-    let matches = image.match(/^data:([A-Za-z-+/]+);base64,(.+)$/)
-
-    // An empty object
-    let response = {}
-
-    if (matches.length !== 3) {
-     return new Error('Invalid input string')
+  if (matches.length !== 3) {
+    return new Error('Invalid input string')
+  }
+  // Image type (i.e. image/jpeg)
+  response.type = matches[1]
+  // Image base64 data
+  response.data = new Buffer(matches[2], 'base64')
+  var data = imageNameData(image);
+  function imageNameData(data) {
+    var imageName = name + '_' + Math.random();
+    if (data.indexOf('image/jpeg') > -1) {
+      return imageName + '.jpeg';
     }
-    // Image type (i.e. image/jpeg)
-    response.type = matches[1]
-    // Image base64 data
-    response.data = new Buffer(matches[2], 'base64')
-    var data = imageNameData(image);
-    function imageNameData (data) {
-        var imageName = name + '_' + Math.random();
-        if (data.indexOf('image/jpeg') > -1) {
-            return imageName + '.jpeg';
-        }
-        if (data.indexOf('image/png') > -1) {
-            return imageName + '.png';
-        }
-        if (data.indexOf('image/gif') > -1) {
-            return imageName + '.gif';
-        }
+    if (data.indexOf('image/png') > -1) {
+      return imageName + '.png';
     }
-    var imageName = '/home/user/series_node' +  '/' + data;
+    if (data.indexOf('image/gif') > -1) {
+      return imageName + '.gif';
+    }
+  }
+  var imageName = '/home/user/series_node' +
+  '/' + data;
 
-    FileSystem.writeFile(imageName, response.data, function (error) {
-      console.log(response.data)
-      if (error) throw error
-    })
-    user.image = data;
-    user.save(function(err, response1) {
-      if (err) {
-        res.json({
-          status: false,
-          respData: {
-            data: err
-          }
-        })
-      }
+  FileSystem.writeFile(imageName, response.data, function(error) {
+    console.log(response.data)
+    if (error)
+      throw error
+  })
+  user.image = data;
+  user.save(function(err, response1) {
+    if (err) {
+      res.json({
+        status: false,
+        respData: {
+          data: err
+        }
+      })
+    }
     res.json({
       status: true,
       respData: {
@@ -511,8 +512,8 @@ exports.getcomics = function(req, res) {
         }
       });
     }
-    for(var l=0; l<response.length; l++){
-      response[l].image= "http://192.168.15.100:2000/" +  response[l].image
+    for (var l = 0; l < response.length; l++) {
+      response[l].image = "http://192.168.15.100:2000/" + response[l].image
       console.log(response[l].image);
     }
     console.log(response)
@@ -570,7 +571,6 @@ exports.updatecomics = function(req, res) {
   })
 }
 
-
 exports.deletecomics = function(req, res) {
   var id = req.params._id;
   comics.findOne({
@@ -619,10 +619,9 @@ exports.deletecomics = function(req, res) {
 
 exports.checkuser = function(req, res) {
   var username = req.body.username;
-  var password = req.body.password
+  var password = req.body.password;
   User.findOne({
-    username: username,
-    password: password
+    username: username
   }, function(err, user) {
     if (err) {
       res.json({
@@ -631,24 +630,41 @@ exports.checkuser = function(req, res) {
           data: err
         }
       });
+    } else if (user) {
+      var result = bcrypt.compareSync(password, user.password)
+      console.log(result, "ou")
+         if (result == true) {
+             var myToken = jwt.sign({
+              username: req.body.username
+        }, 'yashwanth')
+        user = user.role;
+        res.json({
+          status: true,
+          respData: {
+            data: user,
+            token: myToken
+          }
+        });
+
+      } else {
+        res.json({
+          status: false,
+          respData: {
+            data: "wrong password"
+          }
+        });
+      }
+
     }
-
-    if (user) {
-
+    else{
       res.json({
-        status: true,
+        status: false,
         respData: {
-          data: user
+          data: "user not found"
         }
       });
-    } else {
-      res.json({
-        status: true,
-        respData: {
-          data: "user doesnt exist"
-        }
-      });
     }
+
   })
 }
 
@@ -675,26 +691,18 @@ exports.searchcomics = function(req, res) {
         }
       });
     }
-      return res.json({
-        status: true,
-        respData: {
-          data: response
-        }
-      });
-
+    return res.json({
+      status: true,
+      respData: {
+        data: response
+      }
+    });
 
   })
 };
 
 exports.postcomment = function(req, res) {
-  var comment = new comments({
-    Comic_id: req.body.Comic_id,
-    Comment: req.body.Comment,
-    User_name: req.body.User_name,
-    posted_at: new Date(),
-
-
-  });
+  var comment = new comments({Comic_id: req.body.Comic_id, Comment: req.body.Comment, User_name: req.body.User_name, posted_at: new Date()});
 
   comment.save(function(err, response) {
     if (err) {

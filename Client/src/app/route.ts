@@ -24,8 +24,8 @@ export const rou: Routes = [
 
     {
         path: 'superadmin', component: SuperadminComponent, data: [{
-            role: 'super Admin'
-        }], canActivate: [AuthService], children: [
+            role: 'superadmin'
+        }],canActivate: [AuthService], children: [
             { path: 'users', component: UsersComponent },
         ],
     },
@@ -33,7 +33,7 @@ export const rou: Routes = [
     { path: 'searchresult', component: SearchresultComponent },
     {
         path: 'admin', component: AdminComponent, data: [{
-            role: 'Admin'
+            role: 'admin'
         }], canActivate: [AuthService],
         children: [
             { path: 'comics', component: ComicsComponent },
@@ -50,7 +50,9 @@ export const rou: Routes = [
             { path: 'comics', component: ComicsComponent },
             // { path: 'searchresult', component: SearchresultComponent },
 
-        ]
+        ], data: [{
+            role: 'user'
+        }]
     },
 
 

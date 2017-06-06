@@ -13,11 +13,13 @@ export class SuperadminComponent implements OnInit {
   constructor(public dataservice: DataService,public router1: Router) { }
 
   ngOnInit() {
+    // localStorage.getItem('role')
+
  
 }
  logout() {
     localStorage.clear()
-    console.log(localStorage.getItem('role'))
+    // console.log(localStorage.getItem('role'))
     this.router1.navigate(['/login'])
   }
 }

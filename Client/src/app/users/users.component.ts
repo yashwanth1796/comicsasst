@@ -39,14 +39,11 @@ export class UsersComponent implements OnInit {
       })
   }
   updateuser(dropdown) {
-
-    // this.Newuser.password = form1.password;
     this.Newuser.role = dropdown;
     console.log(this.Newuser)
     this.dataservice.updateuser(this.Newuser)
       .subscribe(resdata => {
         this.upuser = resdata.respData.data;
-
         this.status = resdata.status;
         console.log(this.status)
 

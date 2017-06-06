@@ -3,6 +3,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var http = require('http').Server(app);
+var expressJWT = require('express-jwt')
+var jwt = require('jsonwebtoken');
 // Connect to the MongoDB
 mongoose.connect('mongodb://localhost:27017/assignment');
 
@@ -12,12 +14,12 @@ var app = module.exports = express();
 var NODE_ENV = 'development';
 //Set Variables
 app.set('env', process.env.NODE_ENV || 'production');
-
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressJWT({secret: 'yashwanth'}).unless({path: ['/api/v1/users/check', '/*.png']}))
+app.use(bodyParser.urlencoded({ extended: true, limit:'50mb' }));
 // app.use(express.bodyParser({uploadDir:'/home/user/Pictures'}));
 app.use(bodyParser.json({limit:'50mb'}));
-app.use(express.static(__dirname ))
-console.log(__dirname)
+app.use(express.static( 'public' ))
+console.log(__dirname, '/public')
 routes = require('./routes/index')
 app.use('/api', routes);
 
