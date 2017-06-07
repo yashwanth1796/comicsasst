@@ -8,6 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./mainbody.component.css']
 })
 export class MainbodyComponent implements OnInit {
+   flag=0;
+  status: any;
+  Searchdata: any;
+  searchresults: any;
+  flag1=0;
+ 
   GetSearch: any;
   seasons: any;
   series: any;
@@ -40,4 +46,31 @@ export class MainbodyComponent implements OnInit {
    
 //     })
 //   }
+
+
+search() {
+this.dataservice.search(this.Searchdata).subscribe(res => {
+      this.status= res.status;
+      console.log(this.status);
+      console.log(res);
+      
+   if(this.status==true){
+      this.searchresults = res.respData.data;
+     this.flag = 0;
+     this.flag1=1;
+      
+
+   }
+   else{
+     this.flag = 1;
+     this.flag1=0;
+
+   }
+    })
+  }
 }
+
+
+
+
+

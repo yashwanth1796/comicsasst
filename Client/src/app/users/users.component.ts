@@ -13,12 +13,16 @@ export class UsersComponent implements OnInit {
     username: String,
     password: String,
     role: String,
+    name: String,
+    email: String
   }
   =
   {
     username: '',
     password: '',
-    role: ''
+    role: '',
+    name:'',
+    email: ''
   };
   upuser: any;
   users: any;

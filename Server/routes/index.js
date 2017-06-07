@@ -40,6 +40,8 @@ router.route('/v1/series')
   .post(userController.postcomment)
   router.route('/v1/comments/')
   .get(userController.getcomment)
+  router.route('/v1/verification/:code')
+  .get(userController.emailverify)
 
 
 

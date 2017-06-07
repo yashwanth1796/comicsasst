@@ -1,5 +1,5 @@
 
-<button (click)="logout()" class="btn btn-danger" > logout </button>
+<!--<button (click)="logout()" class="btn btn-danger" > logout </button>
 
 <nav>
   <a [routerLink]="['comics']">comics</a>
@@ -7,7 +7,35 @@
   <a [routerLink]="['series']">series</a>
 
 
+</nav>-->
+<nav class="navbar navbar-inverse navbar-static-top Header">
+  <div class="container">
+    <ul style="margin: 5px 4px 2px 17px;" class="nav navbar-nav navbar-left">
+      <li>
+  <a [routerLink]="['comics']">
+     
+          <span class="glyphicon glyphicon-log-in"></span> comics</a>
+      </li>
+    </ul>
+    <ul style="margin: 5px 4px 2px 40px;" class="nav navbar-nav navbar-middle">
+      <li>
+     <a [routerLink]="['seasons']">
+          <span class="glyphicon glyphicon-log-in"></span> seasons</a>
+      </li>
+    </ul>
+     <ul style="margin: 5px 4px 2px 60px;" class="nav navbar-nav navbar-middle">
+      <li>
+     <a [routerLink]="['series']">
+          <span class="glyphicon glyphicon-log-in"></span> series</a>
+      </li>
+    </ul>
+    <ul style="margin: 12px 15px 22px 330px;" class="nav navbar-nav navbar-right">
+      <!--<input style="width: 217px;height: 29px;" type="text" name="search" placeholder="Search.." [(ngModel)]="Searchdata">-->
+     <button (click)="logout()" class="btn btn-danger" >  
+        <span ></span>logout
+  </button>
+    </ul>
+  </div>
 </nav>
-
 
 <router-outlet> </router-outlet>

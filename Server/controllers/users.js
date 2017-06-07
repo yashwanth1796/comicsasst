@@ -6,16 +6,29 @@ var comments = require('../models/comments');
 var FileSystem = require('fs');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
-
+var nodemailer = require('nodemailer');
+var mongoose = require('mongoose');
+nev = require('email-verification')(mongoose);
 //user functions
 exports.postUsers = function(req, res) {
-  var user = new User({username: req.body.username, password: req.body.password, type: req.body.type, role: req.body.role});
+  var token = Math.random()
+  var user = new User({
+    username: req.body.username,
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    type: req.body.type,
+    role: req.body.role,
+    verification: false,
+    code: token
+  });
   const saltRounds = 10;
   var salt = bcrypt.genSaltSync(saltRounds);
   var hash = bcrypt.hashSync(user.password, salt);
   console.log(hash);
   user.password = hash;
   console.log(user.password, "save");
+  // User.findOne({email: user.email})
   user.save(function(err, response) {
     if (err) {
       res.json({
@@ -26,16 +39,97 @@ exports.postUsers = function(req, res) {
       });
     }
 
-    res.json({
-      status: true,
-      respData: {
-        data: response
+    console.log(user.code);
+    link = "http://192.168.15.100:2000/api/v1/verification/" + user.code
+    console.log(link)
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'yashwanth.vandanapu@gmail.com',
+        pass: 'yash1796'
       }
     });
 
+    var mailOptions = {
+      from: 'yashwanth.vandanapu@gmail.com',
+      to: user.email,
+      subject: 'verify your account',
+      html: "click on the link! <a href=" + link + "> clik here </a>"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    res.json({
+      status: true,
+      respData: {
+        data: "verification email sent!"
+      }
+    });
   });
 };
 
+exports.emailverify = function(req, res) {
+  var token = req.params.code
+  User.findOne({
+    code: token
+  }, function(err, user) {
+    if (err) {
+      res.json({
+        status: false,
+        respData: {
+          data: err
+        }
+      });
+    }
+    user.verification = true;
+    user.code = '';
+    user.save(function(err, response) {
+      if (err) {
+        res.json({
+          status: false,
+          respData: {
+            data: err
+          }
+        });
+      }
+
+      res.json({
+        status: true,
+        respData: {
+          data: "updated"
+        }
+      });
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'yashwanth.vandanapu@gmail.com',
+          pass: 'yash1796'
+        }
+      });
+
+      var mailOptions = {
+        from: 'yashwanth.vandanapu@gmail.com',
+        to: user.email,
+        subject: 'verify your account',
+        text: "Welcome you have been registered in the series base website!"
+      };
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+    })
+
+  })
+}
 exports.getUsers = function(req, res) {
   User.find({}, function(err, response) {
     if (err) {
@@ -88,6 +182,7 @@ exports.updateUsers = function(req, res) {
           data: "updated"
         }
       });
+
     })
   })
 }
@@ -637,15 +732,25 @@ exports.checkuser = function(req, res) {
              var myToken = jwt.sign({
               username: req.body.username
         }, 'yashwanth')
-        user = user.role;
+        user1 = user.role;
+        console.log(user.verification, "ou")
+    if(user.verification == true){
         res.json({
           status: true,
           respData: {
-            data: user,
+            data: user1,
             token: myToken
           }
         });
-
+}
+else{
+  res.json({
+    status: false,
+    respData:{
+      data: "verify user"
+    }
+  })
+}
       } else {
         res.json({
           status: false,
@@ -670,7 +775,7 @@ exports.checkuser = function(req, res) {
 
 exports.searchcomics = function(req, res) {
   console.log(req.params.reg);
-  var regex = RegExp(req.params.reg);
+  var regex = new RegExp(req.params.reg);
 
   comics.find({
     Name: regex

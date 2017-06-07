@@ -10,6 +10,8 @@ import { CanActivate, Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  checkdata: any;
+  verify: any;
   usercheck: any;
   token: any;
   type1: any;
@@ -27,33 +29,36 @@ export class LoginComponent implements OnInit {
   check(form1) {
     console.log(form1)
     this.dataservice.checkusers(form1).subscribe(data => {
-      this.usercheck = data.respData.data
-      if (this.usercheck == 'user not found') {
-        alert('user not found')
-      }
-      else {
-        this.token = data.respData.token;
-        localStorage.setItem('token', this.token)
-        this.type = data.respData.data;
-        localStorage.setItem('role', this.type)
-        this.dataservice.settoken();
-        console.log(this.type, "role in login")
+      // console.log(data)
+      this.checkdata = data.respData.data;
+      console.log(this.checkdata)
 
-        switch (this.type) {
-          case "superadmin": this.router.navigate(["/superadmin"])
-            break;
-          case "admin": this.router.navigate(["/admin"])
-            break;
-          case "user": this.router.navigate(["/User"])
-            break;
-          case " ": this.router.navigate(["/login"])
-            break;
-          default:
-            alert("Wrong password")
-            this.router.navigate(["/login"])
+      switch (this.checkdata) {
+        case "user not found": alert('user not found')
+          break;
+        case "verify user": alert("please verify!")
+          break;
+        default:
+          this.token = data.respData.token;
+          localStorage.setItem('token', this.token)
+          this.type = data.respData.data;
+          localStorage.setItem('role', this.type)
+          // this.dataservice.settoken();
+          console.log(this.type, "role in login")
+          switch (this.type) {
+            case "superadmin": this.router.navigate(["/superadmin"])
+              break;
+            case "admin": this.router.navigate(["/admin"])
+              break;
+            case "user": this.router.navigate(["/User"])
+              break;
+            default:
+              alert("wrong password")
+              this.router.navigate(["/login"])
 
-        }
+          }
       }
+
 
     })
   }

@@ -28,6 +28,8 @@ export class DataService {
     );
   }
   getseries(): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
      let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -38,6 +40,8 @@ export class DataService {
     );
   }
   getseasons(): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
         let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -50,6 +54,7 @@ export class DataService {
 
   }
   getusers(): Observable<any> {
+    this.JWT =localStorage.getItem('token')
         let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -68,16 +73,17 @@ export class DataService {
 
   search(a): Observable<any> {
     console.log(a, "in service")
-       let headers = new Headers();
-    headers.append('Content-Type', 'application/json')
-    headers.append('Authorization', 'Bearer '+ this.JWT )
+ let headers = new Headers({'Content-Type': 'application/json'});
+
     let options = new RequestOptions({ headers: headers });
-    return this.httpService.get(this.con.UrlObj.searchurl + a,options).map(
+    return this.httpService.get(this.con.UrlObj.searchurl + a).map(
       data => data.json()
     );
   }
 
   postseries(a) {
+    this.JWT =localStorage.getItem('token')
+    
     console.log(a,"service")
     this.JWT = localStorage.getItem('token')
       let headers = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer '+ this.JWT});
@@ -86,6 +92,8 @@ export class DataService {
       .map((res => res.json()));
   }
   deleteseries(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
       let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -95,6 +103,8 @@ export class DataService {
     );
   }
   updateuser(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
      let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -105,6 +115,8 @@ export class DataService {
     )
   }
   updateseries(editid, a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
       let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -117,6 +129,8 @@ export class DataService {
   }
 
   deleteseasons(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
     let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -126,6 +140,8 @@ export class DataService {
     );
   }
   postseasons(a) {
+    this.JWT =localStorage.getItem('token')
+    
         let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -134,6 +150,8 @@ export class DataService {
       .map((res => res.json()));
   }
   updateseasons(editid, a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
     let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -146,6 +164,8 @@ export class DataService {
   }
 
   deleteuser(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
         let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -157,6 +177,8 @@ export class DataService {
   }
 
   postusers(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
     let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -166,6 +188,8 @@ export class DataService {
     );
   }
   deletecomics(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
         let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -176,6 +200,8 @@ export class DataService {
   }
 
   updatecomics(editid, a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
     let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -186,6 +212,8 @@ export class DataService {
     )
   }
   postcomics(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
     console.log(a,"ser")
       let headers = new Headers();
     headers.append('Content-Type', 'application/json')
@@ -196,6 +224,8 @@ export class DataService {
   }
 
   addcomment(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
     let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -206,6 +236,8 @@ export class DataService {
   }
 
   gsea(a): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
         let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -215,6 +247,8 @@ export class DataService {
   }
 
   getcomment(): Observable<any> {
+    this.JWT =localStorage.getItem('token')
+    
        let headers = new Headers();
     headers.append('Content-Type', 'application/json')
     headers.append('Authorization', 'Bearer '+ this.JWT )
@@ -225,8 +259,8 @@ export class DataService {
 
 
   }
-  settoken() {
-    this.JWT = localStorage.getItem('token');
-  }
+  // settoken() {
+  //   this.JWT = localStorage.getItem('token');
+  // }
 
 }

@@ -1,0 +1,10 @@
+.border1{
+    border-style: groove;
+    width:40%;
+    height:40%;
+    box-shadow: 0 0 19px black;
+    margin: 0% 0% 0% 30%;
+}
+/*body{
+    background-image: url("http://wallpapercave.com/wp/RoGBhzh.jpg")
+}*/

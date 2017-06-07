@@ -3,16 +3,14 @@
   <table class="table table-striped">
     <thead>
       <th>Username</th>
-      <!--<th>Password</th>-->
       <th>Role</th>
-
+      <th>Email ID</th>
     </thead>
     <tbody>
       <tr *ngFor="let item of users">
         <td>{{item.username}}</td>
-        <!--<td>{{item.password}}</td>-->
         <td>{{item.role}}</td>
-
+        <td>{{item.email}}</td>
         <button (click)="save(item.username)" type="submit" class="btn btn-success">Edit</button>
         <button (click)="duser(item._id)" type="submit" class="btn btn-danger">Delete</button>
 
@@ -29,7 +27,7 @@
       <input required type="text" name="password" [(ngModel)]="Newuser.password" #name="ngModel" placeholder="Change password" class="form-control">
     </div>
          <select #dropdown>
-  <option  name="role" value="Admin"  ngDefaultControl>Admin</option>
+  <option  name="role" value="admin"  ngDefaultControl>Admin</option>
   <option   name="role" value="user"  ngDefaultControl>user</option>
 </select>
 
@@ -44,9 +42,11 @@
     <form (ngSubmit)="addusers(dropdown.value)" #DetailsForm='ngForm'>
       <input type="text" name="username" #Series placeholder="Enter the user name" [(ngModel)]="Newuser.username">
       <input type="text" name="password" #Data placeholder="Enter description" [(ngModel)]="Newuser.password">
+      <input type="text" name="name" #Series placeholder="Enter the  name" [(ngModel)]="Newuser.name">
+      <input type="text" name="email" #Series placeholder="Enter the email  id" [(ngModel)]="Newuser.email">
     
         <select #dropdown>
-  <option  name="role" value="Admin"  ngDefaultControl>Admin</option>
+  <option  name="role" value="admin"  ngDefaultControl>Admin</option>
   <option   name="role" value="user"  ngDefaultControl>user</option>
 </select>
 
@@ -55,6 +55,3 @@
     </form>
   </div>
 </div>
-        <!--<a [routerLink]="['comics']">comics</a>-->
-
-<!--<router-outlet name="comics"></router-outlet>-->
